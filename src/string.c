@@ -4,12 +4,12 @@
 #include <sys/types.h>
 
 String *String_from(char *vec) {
-  String *s = malloc(sizeof(String *));
+  String *s = malloc(sizeof(String));
   i32 len = 1;
   while ((*vec++)) {
     len++;
   }
-  s->chars = malloc(sizeof(u8) * len);
+  s->chars = malloc(sizeof(char) * len);
   if (s->chars == NULL) {
     err("Failed to allocate string space")
   }

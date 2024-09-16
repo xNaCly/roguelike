@@ -1,0 +1,9 @@
+ROUGE
+=====
+
+A little rouge like game implemented in c without any dependencies
+
+Run
+---
+
+    make

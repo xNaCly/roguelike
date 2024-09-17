@@ -1,8 +1,6 @@
 CFLAGS := -std=c23 \
-	-O1 \
 	-fdiagnostics-color=always \
 	-Wall \
-	-g3 \
 	-Wpedantic \
 	-Wextra \
 	-Wshadow \
@@ -13,5 +11,14 @@ FILES := $(shell find ./src -name "*.c")
 all: build-full
 	./rogue
 
+debug: build-debug
+	valgrind --leak-check=full \
+		--show-leak-kinds=all \
+		--track-origins=yes \
+		 ./rogue-debug
+
 build-full:
-	$(CC) $(CFLAGS) $(FILES) -o rogue
+	$(CC) $(CFLAGS) -O1 $(FILES) -o rogue
+
+build-debug:
+	$(CC) $(CFLAGS) -g3 $(FILES) -o rogue-debug

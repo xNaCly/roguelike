@@ -15,15 +15,6 @@ typedef signed long long int i64;
 typedef float f32;
 typedef double f64;
 
-typedef struct String {
-  u32 length;
-  char *chars;
-} String;
-
-String *String_new(char *vec, u32 size);
-String *String_from(char *vec);
-void String_free(String *s);
-
 #define err(str)                                                               \
   fprintf(stderr, "Internal error: %s at %s, line %d\n", str, __FILE__,        \
           __LINE__);                                                           \

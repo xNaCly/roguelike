@@ -20,8 +20,7 @@ CFLAGS := -std=c23 \
 	-Wswitch-default \
 	-Wswitch-enum \
 	-Wunreachable-code \
-	-Wno-discarded-qualifiers\
-	-Wpedantic 
+	-Wno-discarded-qualifiers
 FILES := $(shell find ./src -name "*.c")
 
 all: build-full

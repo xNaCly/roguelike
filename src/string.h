@@ -9,7 +9,8 @@ typedef struct String {
 } String;
 
 // create a String from a c string
-#define STRING(STR) (String){.chars = STR, .length = sizeof(STR)};
+#define STRING(STR)                                                            \
+  (String) { .length = sizeof(STR), .chars = STR }
 
 String *String_from(const char *vec);
 void String_free(String *s);

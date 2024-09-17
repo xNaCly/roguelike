@@ -1,11 +1,26 @@
 CFLAGS := -std=c23 \
-	-fdiagnostics-color=always \
+	-O2 \
 	-Wall \
-	-Wpedantic \
 	-Wextra \
-	-Wshadow \
+	-Werror \
+	-fdiagnostics-color=always \
+	-fsanitize=address,undefined \
+	-fno-common \
+	-Winit-self \
+	-Wfloat-equal \
 	-Wundef \
-	-fno-common
+	-Wshadow \
+	-Wpointer-arith \
+	-Wcast-align \
+	-Wstrict-prototypes \
+	-Wstrict-overflow=5 \
+	-Wwrite-strings \
+	-Waggregate-return \
+	-Wcast-qual \
+	-Wswitch-default \
+	-Wswitch-enum \
+	-Wunreachable-code \
+	-Wpedantic 
 FILES := $(shell find ./src -name "*.c")
 
 all: build-full
@@ -18,7 +33,7 @@ debug: build-debug
 		 ./rogue-debug
 
 build-full:
-	$(CC) $(CFLAGS) -O1 $(FILES) -o rogue
+	$(CC) $(CFLAGS) $(FILES) -o rogue
 
 build-debug:
 	$(CC) $(CFLAGS) -g3 $(FILES) -o rogue-debug

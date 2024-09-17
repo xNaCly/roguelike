@@ -20,6 +20,7 @@ CFLAGS := -std=c23 \
 	-Wswitch-default \
 	-Wswitch-enum \
 	-Wunreachable-code \
+	-Wno-discarded-qualifiers\
 	-Wpedantic 
 FILES := $(shell find ./src -name "*.c")
 

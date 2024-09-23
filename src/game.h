@@ -29,7 +29,7 @@ typedef struct Game {
   Enemy *Enemies[]; // TODO: convert to a slice
 } Game;
 
-#define enemy(NAME, HP, DPS, GOLD)                                             \
+#define ENEMY(NAME, HP, DPS, GOLD)                                             \
   (Enemy) {                                                                    \
     .data = (EntityData){.position = (Position){.x = 0, .y = 0},               \
                          .name = STRING(NAME)},                                \

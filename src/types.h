@@ -15,12 +15,17 @@ typedef signed long long int i64;
 typedef float f32;
 typedef double f64;
 
-#define err(str)                                                               \
-  fprintf(stderr, "Internal error: %s at %s, line %d\n", str, __FILE__,        \
-          __LINE__);                                                           \
-  exit(EXIT_FAILURE);
-#define todo(str)                                                              \
-  fprintf(stderr, "todo: '%s' at %s, line %d\n", str, __FILE__, __LINE__);     \
-  exit(EXIT_FAILURE);
+#define ERR(str)                                                               \
+  fprintf(stderr, "panic: %s (%s:%d)\n", str, __FILE__, __LINE__),             \
+      exit(EXIT_FAILURE)
+#define TODO(str)                                                              \
+  fprintf(stderr, "TODO: '%s' (%s:%d)\n", str, __FILE__, __LINE__),            \
+      exit(EXIT_FAILURE)
+#define ASSERT(EXP)                                                            \
+  if (!(EXP)) {                                                                \
+    fprintf(stderr, "Assertion \"" #EXP "\" failed at %s, line %d\n",          \
+            __FILE__, __LINE__);                                               \
+    exit(EXIT_FAILURE);                                                        \
+  }
 
 #endif

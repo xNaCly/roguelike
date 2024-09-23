@@ -8,9 +8,7 @@ String *String_from(const char *vec) {
   String *s = malloc(sizeof(String));
   size_t len = strlen(vec) + 1;
   s->chars = malloc(sizeof(char) * len);
-  if (s->chars == NULL) {
-    err("Failed to allocate string space")
-  }
+  ASSERT(s->chars != NULL)
   memcpy(s->chars, vec, len);
   s->length = len - 1;
   return s;

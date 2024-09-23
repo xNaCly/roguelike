@@ -16,10 +16,10 @@ typedef float f32;
 typedef double f64;
 
 #define ERR(str)                                                               \
-  fprintf(stderr, "panic: %s (%s:%d)\n", str, __FILE__, __LINE__),             \
+  fprintf(stderr, "panic: %s at %s:%d\n", str, __FILE__, __LINE__),            \
       exit(EXIT_FAILURE)
 #define TODO(str)                                                              \
-  fprintf(stderr, "TODO: '%s' (%s:%d)\n", str, __FILE__, __LINE__),            \
+  fprintf(stderr, "TODO: '%s' at %s:%d\n", str, __FILE__, __LINE__),           \
       exit(EXIT_FAILURE)
 #define ASSERT(EXP)                                                            \
   if (!(EXP)) {                                                                \

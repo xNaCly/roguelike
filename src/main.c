@@ -6,7 +6,7 @@ int main(void) {
   double d = 25;
   Slice_push(s, &d);
   printf("%f\n", *(double *)OR(Slice_get(s, -1), &d));
-  printf("%f\n", *(double *)UNWRAP(Slice_get(s, -1)));
-  printf("%f\n", *(double *)EXPECT(Slice_get(s, -1), "This should not work"));
+  printf("%f\n", *(double *)UNWRAP(Slice_get(s, 0)));
+  printf("%f\n", *(double *)EXPECT(Slice_get(s, 0), "This should work"));
   Slice_free(s);
 }

@@ -1,4 +1,4 @@
-CFLAGS := -std=c23 \
+CFLAGS := -std=c11 \
 	-O2 \
 	-Wall \
 	-Wextra \
@@ -20,7 +20,8 @@ CFLAGS := -std=c23 \
 	-Wswitch-default \
 	-Wswitch-enum \
 	-Wunreachable-code \
-	-Wno-discarded-qualifiers
+	-Wno-discarded-qualifiers \
+	-Wno-aggregate-return
 FILES := $(shell find ./src -name "*.c")
 
 all: build-full

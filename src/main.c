@@ -1,12 +1,12 @@
 #include "game.h"
+#include "slice.h"
 
 int main(void) {
-  /* String s = STRING("Hello world"); */
-  /* puts(s.chars); */
-  /* String *s1 = String_from("Hello world 123"); */
-  /* puts(s1->chars); */
-  /* String_free(s1); */
-
-  Game *g = NULL;
-  Game_load_enemies(g);
+  Slice *s = Slice_new(8);
+  double d = 25;
+  Slice_push(s, &d);
+  printf("%f\n", *(double *)OR(Slice_get(s, -1), &d));
+  printf("%f\n", *(double *)UNWRAP(Slice_get(s, -1)));
+  printf("%f\n", *(double *)EXPECT(Slice_get(s, -1), "This should not work"));
+  Slice_free(s);
 }

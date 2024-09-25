@@ -1,3 +1,6 @@
+#ifndef GAME_H
+#define GAME_H
+#include "slice.h"
 #include "string.h"
 #include "types.h"
 #include <sys/types.h>
@@ -26,7 +29,7 @@ typedef struct Enemy {
 
 typedef struct Game {
   Player player;
-  Enemy *Enemies[]; // TODO: convert to a slice
+  Slice enemies;
 } Game;
 
 #define ENEMY(NAME, HP, DPS, GOLD)                                             \
@@ -37,3 +40,4 @@ typedef struct Game {
   }
 
 void Game_load_enemies(Game *g);
+#endif

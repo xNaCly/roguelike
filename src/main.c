@@ -24,8 +24,8 @@ int main(void) {
   Display *d = Display_new();
   Display_render(d, &g);
 
-  u8 gameloop = 1;
-  while (gameloop) {
+  while (1) {
+    MOVE m = IDLE;
     switch (read_byte()) {
     case 'w':
       m = NORTH;
@@ -40,9 +40,9 @@ int main(void) {
       m = EAST;
       break;
     case 'q':
-      gameloop = 0;
-      break;
+      goto exit;
     default: {
+    };
     }
 
     Position last = g.player.data.position;
@@ -51,6 +51,7 @@ int main(void) {
     Display_render(d, &g);
   }
 
+exit:
   Display_destroy(d);
   Slice_free(s);
 }

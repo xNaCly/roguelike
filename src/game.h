@@ -5,11 +5,6 @@
 #include "types.h"
 #include <sys/types.h>
 
-typedef struct Position {
-  u32 x;
-  u32 y;
-} Position;
-
 typedef struct EntityData {
   Position position;
   String name;
@@ -40,4 +35,5 @@ typedef struct Game {
   }
 
 void Game_load_enemies(Game *g);
+void Game_move(Game *g, MOVE m);
 #endif

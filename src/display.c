@@ -4,10 +4,21 @@
 #include <unistd.h>
 
 #include "display.h"
-#include "game.h"
 #include "types.h"
 
 static struct termios orig_termios;
+
+static String move_table[] = {
+    [NORTH] = STRING("NORTH"), [SOUTH] = STRING("SOUTH"),
+    [WEST] = STRING("WEST"),   [EAST] = STRING("EAST"),
+    [IDLE] = STRING("IDLE"),
+};
+
+void Display_move(Display *d, Position p, MOVE m) {
+  // resetting field the player was at before making the current move
+  d->matrix[p.x][p.y] = ' ';
+  d->last_move = move_table[m];
+}
 
 Display *Display_new(void) {
   Display *d = malloc(sizeof(Display));
@@ -55,7 +66,7 @@ void Display_render(Display *d, Game *g) {
 }
 
 void Display_destroy(Display *d) {
-  printf(ESCAPE_CODE_SHOW_CURSOR);
+  printf(ESCAPE_CODE_CLEAR ESCAPE_CODE_SHOW_CURSOR);
   ASSERT(d != NULL);
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios); // disable raw mode
   // enable buffering

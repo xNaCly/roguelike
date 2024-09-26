@@ -17,5 +17,6 @@ typedef struct Display {
 Display *Display_new(void);
 void Display_render(Display *d, Game *g);
 void Display_destroy(Display *d);
+void Display_move(Display *d, Position p, MOVE m);
 
 #endif

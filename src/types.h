@@ -15,6 +15,19 @@ typedef signed long long int i64;
 typedef float f32;
 typedef double f64;
 
+typedef struct Position {
+  u32 x;
+  u32 y;
+} Position;
+
+typedef enum moves {
+  NORTH,
+  SOUTH,
+  WEST,
+  EAST,
+  IDLE,
+} MOVE;
+
 #define ERR(str)                                                               \
   fprintf(stderr, "panic: %s at %s:%d\n", str, __FILE__, __LINE__),            \
       exit(EXIT_FAILURE)

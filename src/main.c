@@ -4,11 +4,11 @@
 #include "types.h"
 #include <unistd.h>
 
-char read_byte(void) {
+i32 read_char(void) {
   char r = -1;
   ASSERT(read(STDIN_FILENO, &r, 1) != -1);
   ASSERT(r != -1);
-  return r;
+  return (i32)r;
 }
 
 int main(void) {
@@ -16,9 +16,11 @@ int main(void) {
       .position = (Position){.x = 0, .y = 0},
       .name = STRING("Player"),
   };
-  Slice *s = Slice_new(8);
-  Game g =
-      (Game){.player = (Player){.level = 1, .data = playerData}, .enemies = *s};
+  Slice *enemies = Slice_new(8);
+  Game g = (Game){
+      .player = (Player){.level = 1, .data = playerData},
+      .enemies = *enemies,
+      .msg = STRING("Welcome, advance through the rooms to climb the tower")};
   Game_load_enemies(&g);
 
   Display *d = Display_new();
@@ -26,23 +28,21 @@ int main(void) {
 
   while (1) {
     MOVE m = IDLE;
-    switch (read_byte()) {
-    case 'w':
-      m = NORTH;
-      break;
-    case 's':
-      m = SOUTH;
-      break;
-    case 'a':
-      m = WEST;
-      break;
-    case 'd':
-      m = EAST;
-      break;
-    case 'q':
-      goto exit;
-    default: {
-    };
+    i32 action = read_char();
+    u8 isValidAction = 0;
+    for (u32 i = 0; i < sizeof(keybinds); i++) {
+      if (action == keybinds[i]) {
+        isValidAction = 1;
+      }
+    }
+
+    if (isValidAction) {
+      m = keybind_to_move[action];
+      if (m == EXIT) {
+        goto exit;
+      }
+    } else {
+      g.msg = STRING("I don't know what to do with this action");
     }
 
     Position last = g.player.data.position;
@@ -53,5 +53,5 @@ int main(void) {
 
 exit:
   Display_destroy(d);
-  Slice_free(s);
+  Slice_free(enemies);
 }

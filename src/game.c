@@ -22,25 +22,39 @@ void Game_move(Game *g, MOVE m) {
   case NORTH:
     if (cur.x != 0) {
       cur.x -= 1;
+    } else {
+      g->msg = STRING("Hm, I can't seem to go further north.");
     }
     break;
   case SOUTH:
     if (cur.x != COLUMNS - 1) {
       cur.x += 1;
+    } else {
+      g->msg = STRING("Hm, I can't seem to go further south.");
     }
+
     break;
   case WEST:
     if (cur.y != 0) {
       cur.y -= 1;
+    } else {
+      g->msg = STRING("Hm, I can't seem to go further west.");
     }
     break;
   case EAST:
-    if (cur.y != ROWS - 1)
+    if (cur.y != ROWS - 1) {
       cur.y += 1;
+    } else {
+      g->msg = STRING("Hm, I can't seem to go further west.");
+    }
     break;
+  case INTERACT:
+    g->msg = STRING("There is nothing to interact with.");
+    break;
+  case EXIT:
   case IDLE:
-  default:
-    ERR("impossible");
+  default: {
+  }
   }
 
   g->player.data.position = cur;

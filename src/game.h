@@ -25,6 +25,7 @@ typedef struct Enemy {
 typedef struct Game {
   Player player;
   Slice enemies;
+  String msg;
 } Game;
 
 #define ENEMY(NAME, HP, DPS, GOLD)                                             \

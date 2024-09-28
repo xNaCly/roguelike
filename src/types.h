@@ -25,6 +25,9 @@ typedef enum moves {
   SOUTH,
   WEST,
   EAST,
+  INTERACT,
+  EXIT,
+  // NOOP
   IDLE,
 } MOVE;
 

@@ -8,22 +8,27 @@
 
 static struct termios orig_termios;
 
-static String move_table[] = {
-    [NORTH] = STRING("NORTH"), [SOUTH] = STRING("SOUTH"),
-    [WEST] = STRING("WEST"),   [EAST] = STRING("EAST"),
-    [IDLE] = STRING("IDLE"),
+char keybinds[] = {'w', 'a', 's', 'd', 'q', 'e'};
+MOVE keybind_to_move[] = {
+    ['w'] = NORTH, ['s'] = SOUTH, ['d'] = EAST,
+    ['a'] = WEST,  ['q'] = EXIT,  ['e'] = INTERACT,
 };
+String move_table[] = {
+    [NORTH] = STRING("NORTH"),      [SOUTH] = STRING("SOUTH"),
+    [WEST] = STRING("WEST"),        [EAST] = STRING("EAST"),
+    [EXIT] = STRING("EXIT"),        [IDLE] = STRING("IDLE"),
+    [INTERACT] = STRING("INTERACT")};
 
 void Display_move(Display *d, Position p, MOVE m) {
-  // resetting field the player was at before making the current move
+  // resetting the field the player was at before making the current move
   d->matrix[p.x][p.y] = ' ';
   d->last_move = move_table[m];
 }
 
 Display *Display_new(void) {
   Display *d = malloc(sizeof(Display));
-  d->last_move = STRING("IDLE");
   ASSERT(d != NULL);
+  d->last_move = STRING("IDLE");
   d->matrix = malloc(sizeof(char *) * COLUMNS);
   ASSERT(d->matrix != NULL);
 
@@ -44,18 +49,24 @@ Display *Display_new(void) {
   return d;
 }
 
+// clears the screen, resets all matrix fields, prints the header, renders the
+// player/enemies/walls
 void Display_render(Display *d, Game *g) {
   printf(ESCAPE_CODE_CLEAR ESCAPE_CODE_HIDE_CURSOR);
   EntityData ed = g->player.data;
   Position p = ed.position;
+  // header
   printf("Level: %llu - %s at %zux%zu - Last move: %s\n", g->player.level,
          ed.name.chars, p.x, p.y, d->last_move.chars);
+
+  // resetting the field
   for (size_t col = 0; col < COLUMNS; col++) {
     for (size_t row = 0; row < ROWS; row++) {
       d->matrix[col][row] = ' ';
     }
   }
 
+  // field
   d->matrix[p.x][p.y] = '@';
   for (size_t col = 0; col < COLUMNS; col++) {
     for (size_t row = 0; row < ROWS; row++) {
@@ -63,8 +74,22 @@ void Display_render(Display *d, Game *g) {
     }
     putc('\n', stdout);
   }
+
+  if (g->msg.length) {
+    putc('>', stdout);
+    putc(' ', stdout);
+    puts(g->msg.chars);
+  }
+
+  // available moves
+  for (u32 i = 0; i < sizeof(keybinds); i++) {
+    printf("[%c] %s ", keybinds[i],
+           move_table[keybind_to_move[(u32)keybinds[i]]].chars);
+  }
 }
 
+// removes all printed characters, reenables the terminal buffering, disables
+// raw mode and frees all allocated display memory
 void Display_destroy(Display *d) {
   printf(ESCAPE_CODE_CLEAR ESCAPE_CODE_SHOW_CURSOR);
   ASSERT(d != NULL);

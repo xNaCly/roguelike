@@ -22,6 +22,7 @@ void Game_move(Game *g, MOVE m) {
   case NORTH:
     if (cur.x != 0) {
       cur.x -= 1;
+      g->msg = STRING("I am going to walk north");
     } else {
       g->msg = STRING("Hm, I can't seem to go further north.");
     }
@@ -29,6 +30,7 @@ void Game_move(Game *g, MOVE m) {
   case SOUTH:
     if (cur.x != COLUMNS - 1) {
       cur.x += 1;
+      g->msg = STRING("I am going to walk south");
     } else {
       g->msg = STRING("Hm, I can't seem to go further south.");
     }
@@ -37,6 +39,7 @@ void Game_move(Game *g, MOVE m) {
   case WEST:
     if (cur.y != 0) {
       cur.y -= 1;
+      g->msg = STRING("I am going to walk west");
     } else {
       g->msg = STRING("Hm, I can't seem to go further west.");
     }
@@ -44,6 +47,7 @@ void Game_move(Game *g, MOVE m) {
   case EAST:
     if (cur.y != ROWS - 1) {
       cur.y += 1;
+      g->msg = STRING("I am going to walk east");
     } else {
       g->msg = STRING("Hm, I can't seem to go further west.");
     }

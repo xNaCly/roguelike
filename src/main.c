@@ -1,6 +1,7 @@
 #include "display.h"
 #include "game.h"
 #include "slice.h"
+#include "string.h"
 #include "types.h"
 #include <unistd.h>
 
@@ -12,15 +13,17 @@ i32 read_char(void) {
 }
 
 int main(void) {
+  String *username = String_from(getlogin());
   EntityData playerData = (EntityData){
       .position = (Position){.x = 0, .y = 0},
-      .name = STRING("Player"),
+      .name = *username,
   };
   Slice *enemies = Slice_new(8);
   Game g = (Game){
       .player = (Player){.level = 1, .data = playerData},
       .enemies = *enemies,
-      .msg = STRING("Welcome, advance through the rooms to climb the tower")};
+      .msg = STRING(
+          "I think i have to advance through the rooms to climb the tower")};
   Game_load_enemies(&g);
 
   Display *d = Display_new();
@@ -52,6 +55,7 @@ int main(void) {
   }
 
 exit:
+  String_free(username);
   Display_destroy(d);
   Slice_free(enemies);
 }

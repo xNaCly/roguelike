@@ -57,7 +57,7 @@ void Display_render(Display *d, Game *g) {
   Position p = ed.position;
   // header
   printf("Level: %llu - %s at %zux%zu - Last move: %s\n", g->player.level,
-         ed.name.chars, p.x, p.y, d->last_move.chars);
+         ed.name.chars, p.x + 1, p.y + 1, d->last_move.chars);
 
   // resetting the field
   for (size_t col = 0; col < COLUMNS; col++) {
@@ -76,16 +76,15 @@ void Display_render(Display *d, Game *g) {
   }
 
   if (g->msg.length) {
-    putc('>', stdout);
-    putc(' ', stdout);
+    printf("%s: ", g->player.data.name.chars);
     puts(g->msg.chars);
   }
 
+  printf("binds: ");
   // available moves
-  for (u32 i = 0; i < sizeof(keybinds); i++) {
+  for (u32 i = 0; i < sizeof(keybinds); i++)
     printf("[%c] %s ", keybinds[i],
            move_table[keybind_to_move[(u32)keybinds[i]]].chars);
-  }
 }
 
 // removes all printed characters, reenables the terminal buffering, disables

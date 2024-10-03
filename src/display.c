@@ -56,8 +56,9 @@ void Display_render(Display *d, Game *g) {
   EntityData ed = g->player.data;
   Position p = ed.position;
   // header
-  printf("Level: %llu - %s at %zux%zu - Last move: %s\n", g->player.level,
-         ed.name.chars, p.x + 1, p.y + 1, d->last_move.chars);
+  printf("Level: %llu - " ESCAPE_CODE_CYAN "%s" ESCAPE_CODE_RESET
+         " at %zux%zu - Last move: %s\n",
+         g->player.level, ed.name.chars, p.x + 1, p.y + 1, d->last_move.chars);
 
   // resetting the field
   for (size_t col = 0; col < COLUMNS; col++) {
@@ -66,11 +67,17 @@ void Display_render(Display *d, Game *g) {
     }
   }
 
-  // field
+  // player
   d->matrix[p.x][p.y] = '@';
   for (size_t col = 0; col < COLUMNS; col++) {
     for (size_t row = 0; row < ROWS; row++) {
+      if (col == p.x && row == p.y) {
+        printf(ESCAPE_CODE_CYAN);
+      }
       putc(d->matrix[col][row], stdout);
+      if (col == p.x && row == p.y) {
+        printf(ESCAPE_CODE_RESET);
+      }
     }
     putc('\n', stdout);
   }
